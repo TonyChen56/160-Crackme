@@ -1,0 +1,3 @@
+﻿cl : 命令行 warning D9025: 正在重写“/sdl-”(用“/GS-”)
+  keygen.cpp
+  KeyGen.vcxproj -> F:\Projects\KeyGen\Debug\KeyGen.exe
