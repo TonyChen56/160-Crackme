@@ -1,0 +1,84 @@
+:0040E380  0DA0000300      		VCallHresult       	;Call ptr_0040342C		   获取输入的用户名
+:0040E385  6C64FF          		ILdRf              	;Push DWORD [LOCAL_009C]   将用户名压入堆栈
+:0040E388  4A              		FnLenStr           	;vbaLenBstr				   求用户名长度
+:0040E389  FD6934FF        		CVarI4             	;						   将用户名长度转为变量
+:0040E38D  2F64FF          		FFree1Str          	;SysFreeString [LOCAL_009C]; [LOCAL_009C]=0      释放用户名内存
+:0040E390  1A68FF          		FFree1Ad           	;Push [LOCAL_0098]; Call [[[LOCAL_0098]]+8]; [[LOCAL_0098]]=0 	释放局部变量
+:0040E393  FE68B4FE8901    		ForVar             	;        				    初始化循环次数 开始循环 
+:0040E399  0464FF          		FLdRfVar           	;Push LOCAL_009C            将局部变量0压入堆栈      
+:0040E39C  21              		FLdPrThis          	;[SR]=[stack2]
+:0040E39D  0F0003          		VCallAd            	;Return the control index 02
+:0040E3A0  1968FF          		FStAdFunc          	;
+:0040E3A3  0868FF          		FLdPr              	;[SR]=[LOCAL_0098]
+***********Reference To:[propget]TextBox.Text
+                              |
+:0040E3A6  0DA0000300      		VCallHresult       	;Call ptr_0040342C          获取输入的用户名
+:0040E3AB  046CFF          		FLdRfVar           	;Push LOCAL_0094            将局部变量0压入堆栈 
+:0040E3AE  2824FF0100      		LitVarI2           	;PushVarInteger 0001        将局部变量1压入堆栈 
+:0040E3B3  04D4FE          		FLdRfVar           	;Push LOCAL_012C            将局部变量0压入堆栈 
+:0040E3B6  FC22            		CI4Var             	;vbaI4Var              		将变量1转为数字      
+:0040E3B8  3E64FF          		FLdZeroAd          	;Push DWORD [LOCAL_009C]; [LOCAL_009C]=0  	将用户名压入堆栈
+:0040E3BB  4644FF          		CVarStr            	;											将用户名字符串转为变量
+:0040E3BE  0404FF          		FLdRfVar           	;Push LOCAL_00FC							将局部变量0压入堆栈
+**********Reference To->msvbvm50.rtcMidCharVar					
+                               |
+:0040E3C1  0A0A001000      		ImpAdCallFPR4      	;Call ptr_00401006; check stack 0010; Push EAX   截取用户名的第一个字符
+:0040E3C6  0404FF          		FLdRfVar           	;Push LOCAL_00FC						将用户名的第一个字符压入堆栈
+:0040E3C9  FDFEB0FE        		CStrVarVal         	;										将用户名的第一个字符从变量转为字符串							
+**********Reference To->msvbvm50.rtcAnsiValueBstr
+                               |
+:0040E3CD  0B0B000400      		ImpAdCallI2        	;Call ptr_0040100C; check stack 0004; Push EAX  将用户名的第一个字符转为ASCII值
+:0040E3D2  4434FF          		CVarI2             	;					将用户名的第一个字符的ASCII值转为变量
+:0040E3D5  FBEFE4FE        		ConcatVar          	;					将ASCII值的十进制进行字符串拼接
+:0040E3D9  FCF66CFF        		FStVar             	;					将拼接的字符串转为变量
+:0040E3DD  2FB0FE          		FFree1Str          	;SysFreeString [LOCAL_0150]; [LOCAL_0150]=0	   释放字符串 
+:0040E3E0  1A68FF          		FFree1Ad           	;Push [LOCAL_0098]; Call [[[LOCAL_0098]]+8]; [[LOCAL_0098]]=0    
+:0040E3E3  36060044FF24FF04		FFreeVar           	;Free 0006/2 variants							释放变量
+:0040E3EC  04D4FE          		FLdRfVar           	;Push LOCAL_012C     							
+:0040E3EF  FE7EB4FE2D01    		NextStepVar        	;                    							开始下一轮循环
+:0040E3F5  046CFF          		FLdRfVar           	;Push LOCAL_0094  						    将用户名拼接的字符串压入堆栈——7111710583104111117(0x13) 		
+:0040E3F8  FBEB44FF        		FnLenVar           	;vbaLenVar									求用户名拼接的字符串长度  
+:0040E3FC  2854FF0900      		LitVarI2           	;PushVarInteger 0009  						将整形变量9压入堆栈
+:0040E401  5D              		HardType           	;											修改变量9的类型
+:0040E402  FB74            		GtVarBool          	;Push (Pop1 >= Pop2)						比较长度是否大于9
+:0040E404  1CB901          		BranchF            	;If Pop=0 then ESI=0040E425					如果不大于9则跳转到0040E425
+:0040E407  046CFF          		FLdRfVar           	;Push LOCAL_0094							将用户名拼接的字符串压入堆栈
+:0040E40A  FEC454FF50455254		LitVarR8           	;											将参数一(圆周率)的类型修改为浮点数
+:0040E416  FBBC44FF        		DivVar             	;										    将用户名拼接的字符串除以圆周率
+:0040E41A  FBE124FF        		FnFixVar           	;											相当于字符串拷贝
+:0040E41E  FCF66CFF        		FStVar             	;											将用户名拼接的字符串转为浮点数										
+:0040E422  1E8901          		Branch             	;ESI=0040E3F5								如果长度大于9则跳转至0040E3F5	
+:0040E425  046CFF          		FLdRfVar           	;Push LOCAL_0094							将浮点数结果压入堆栈
+:0040E428  FEC154FF7856F830		LitVarI4           	;											将浮点数转为整形
+:0040E430  FB1744FF        		XorVar             	;											将结果和30F85678进行异或
+:0040E434  FCF66CFF        		FStVar             	;											保存结果
+:0040E438  046CFF          		FLdRfVar           	;Push LOCAL_0094							将异或后的结果压栈
+:0040E43B  080800          		FLdPr              	;[SR]=[STACK_0008]				
+:0040E43E  8A4C00          		MemLdStr           	;Push DWORD [[SR]+004C]						将0xDBD3压栈
+:0040E441  FD6954FF        		CVarI4             	;											将0xDBD3转为变量
+:0040E445  FB9C44FF        		SubVar             	;											用异或后的结果减去0xDBD3
+:0040E449  FCF66CFF        		FStVar             	;											保存结果
+:0040E44D  2814FF0100      		LitVarI2           	;PushVarInteger 0001    ---------------------------------------------------------------
+:0040E452  04D4FE          		FLdRfVar           	;Push LOCAL_012C				
+:0040E455  2834FF0A00      		LitVarI2           	;PushVarInteger 000A
+:0040E45A  FE6890FE2902    		ForVar             	;
+:0040E460  0464FF          		FLdRfVar           	;Push LOCAL_009C
+:0040E463  21              		FLdPrThis          	;[SR]=[stack2]
+:0040E464  0F1003          		VCallAd            	;Return the control index 06
+:0040E467  1968FF          		FStAdFunc          	;
+:0040E46A  0868FF          		FLdPr              	;[SR]=[LOCAL_0098]
+***********Reference To:[propget]TextBox.Text
+                              |
+:0040E46D  0DA0000300      		VCallHresult       	;Call ptr_0040342C
+:0040E472  6C64FF          		ILdRf              	;Push DWORD [LOCAL_009C]
+:0040E475  04D4FE          		FLdRfVar           	;Push LOCAL_012C
+:0040E478  FC22            		CI4Var             	;vbaI4Var
+:0040E47A  080800          		FLdPr              	;[SR]=[STACK_0008]
+:0040E47D  063400          		MemLdRfVar         	;Push [SR]+STACK_0034
+:0040E480  9E              		Ary1LdI4           	;
+:0040E481  FB30            		EqStr              	;
+:0040E483  2F64FF          		FFree1Str          	;SysFreeString [LOCAL_009C]; [LOCAL_009C]=0
+:0040E486  1A68FF          		FFree1Ad           	;Push [LOCAL_0098]; Call [[[LOCAL_0098]]+8]; [[LOCAL_0098]]=0 
+:0040E489  1C2002          		BranchF            	;If Pop=0 then ESI=0040E48C
+:0040E48C  04D4FE          		FLdRfVar           	;Push LOCAL_012C
+:0040E48F  FE7E90FEF401    		NextStepVar        	;						------------------------------------------------------------
